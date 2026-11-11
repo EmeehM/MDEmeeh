@@ -1,0 +1,236 @@
+/* Interfaz de la aplicación */
+:root {
+  --chrome-bg: #f6f7f9;
+  --chrome-fg: #3b4048;
+  --btn-hover: #e6e8ec;
+  --btn-active: #dbe6f5;
+  --placeholder: #a0a6ae;
+}
+:root[data-theme="dark"] {
+  --chrome-bg: #18191c;
+  --chrome-fg: #b4b9c2;
+  --btn-hover: #2c2e33;
+  --btn-active: #2b3a4d;
+  --placeholder: #5d636c;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: "Inter", "Segoe UI", "Noto Sans", "Ubuntu", system-ui, sans-serif;
+  font-size: 13px;
+}
+
+::selection { background: var(--sel); }
+
+/* ---------- Barra de formato ---------- */
+#toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  padding: 6px 12px;
+  background: var(--chrome-bg);
+  border-bottom: 1px solid var(--border);
+  flex: none;
+}
+body.hide-toolbar #toolbar { display: none; }
+#toolbar .group { display: flex; gap: 2px; }
+#toolbar .group + .group { padding-left: 10px; border-left: 1px solid var(--border); }
+
+button {
+  font: inherit;
+  color: var(--chrome-fg);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 3px 8px;
+  cursor: pointer;
+  line-height: 1.4;
+}
+button:hover { background: var(--btn-hover); }
+button.active { background: var(--btn-active); color: var(--accent); }
+button code { font-family: monospace; font-size: 0.95em; }
+
+/* ---------- Layout principal ---------- */
+#main { flex: 1; display: flex; min-height: 0; }
+
+#outline {
+  width: 230px;
+  flex: none;
+  background: var(--chrome-bg);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 14px 8px;
+}
+body.hide-outline #outline { display: none; }
+.outline-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  padding: 0 8px 8px;
+}
+#outline-list { list-style: none; margin: 0; padding: 0; }
+#outline-list li {
+  padding: 4px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--chrome-fg);
+}
+#outline-list li:hover { background: var(--btn-hover); }
+#outline-list li.empty { color: var(--muted); cursor: default; font-style: italic; }
+#outline-list li.empty:hover { background: none; }
+#outline-list .lvl-1 { font-weight: 600; }
+#outline-list .lvl-2 { padding-left: 20px; }
+#outline-list .lvl-3 { padding-left: 32px; }
+#outline-list .lvl-4 { padding-left: 44px; }
+#outline-list .lvl-5 { padding-left: 56px; }
+#outline-list .lvl-6 { padding-left: 68px; }
+
+#scroller {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  min-width: 0;
+}
+
+/* ---------- Editor ---------- */
+#editor { max-width: 860px; margin: 0 auto; padding: 48px 48px 40vh; }
+body.wide #editor { max-width: none; }
+#editor .ProseMirror { outline: none; min-height: 60vh; caret-color: var(--accent); }
+body.source-mode #editor { display: none; }
+
+.ProseMirror p.is-empty:first-child::before,
+.ProseMirror .is-empty::before {
+  content: attr(data-placeholder);
+  color: var(--placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+/* Sólo mostrar el placeholder de párrafo cuando el documento está vacío */
+.ProseMirror p.is-empty:not(.is-editor-empty)::before { content: none; }
+
+.ProseMirror .tableWrapper { overflow-x: auto; margin: 2.8em 0 1em; }
+.ProseMirror table .selectedCell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--sel);
+  pointer-events: none;
+}
+.ProseMirror th, .ProseMirror td { position: relative; }
+.ProseMirror img.ProseMirror-selectednode { outline: 2px solid var(--accent); }
+.ProseMirror-gapcursor:after { border-top-color: var(--fg); }
+
+body.ctrl-held .ProseMirror a { cursor: pointer; text-decoration: underline; }
+.ProseMirror a { cursor: text; }
+
+/* ---------- Modo código fuente ---------- */
+#source {
+  display: none;
+  width: 100%;
+  max-width: 860px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 48px;
+  border: none;
+  outline: none;
+  resize: none;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", "DejaVu Sans Mono", monospace;
+  font-size: 14px;
+  line-height: 1.65;
+  tab-size: 4;
+}
+body.wide #source { max-width: none; }
+body.source-mode #source { display: block; height: 100%; }
+
+/* ---------- Barra de tabla ---------- */
+#table-toolbar {
+  position: absolute;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  background: var(--chrome-bg);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  font-size: 12px;
+  white-space: nowrap;
+}
+#table-toolbar[hidden] { display: none; }
+#table-toolbar .sep { width: 1px; align-self: stretch; background: var(--border); margin: 2px 3px; }
+#table-toolbar button.danger:hover { color: #f85149; }
+
+/* ---------- Barra de estado ---------- */
+#statusbar {
+  flex: none;
+  display: flex;
+  justify-content: flex-end;
+  padding: 3px 14px;
+  font-size: 11.5px;
+  color: var(--muted);
+  background: var(--chrome-bg);
+  border-top: 1px solid var(--border);
+}
+
+/* ---------- Diálogo de enlace ---------- */
+#link-dialog {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 18vh;
+  z-index: 100;
+}
+#link-dialog[hidden] { display: none; }
+#link-dialog .box {
+  background: var(--chrome-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  width: min(440px, 90vw);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+#link-dialog label { color: var(--muted); font-size: 12px; }
+#link-dialog input {
+  font: inherit;
+  font-size: 14px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--fg);
+  outline: none;
+}
+#link-dialog input:focus { border-color: var(--accent); }
+#link-dialog .actions { display: flex; justify-content: flex-end; gap: 6px; }
+#link-dialog button.primary { background: var(--accent); color: #fff; }
+
+/* ---------- Scrollbars ---------- */
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; border: 3px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-track { background: transparent; }
+#status.flash { color: var(--accent); }

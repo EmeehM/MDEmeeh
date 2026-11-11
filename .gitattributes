@@ -1,0 +1,8 @@
+* text=auto
+*.sh text eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.ico binary
+*.png binary
+# bundle.js es generado (minificado) a partir de web/src
+emeeh_markdown/static/bundle.js linguist-generated=true -diff

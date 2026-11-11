@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <base href="./">
+  <title>Emeeh Markdown</title>
+  <link rel="stylesheet" id="css-content" href="content.css">
+  <link rel="stylesheet" id="css-app" href="app.css">
+  <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+</head>
+<body>
+  <header id="toolbar">
+    <div class="group">
+      <button data-cmd="h1" title="Título 1 (Ctrl+1)">H1</button>
+      <button data-cmd="h2" title="Título 2 (Ctrl+2)">H2</button>
+      <button data-cmd="h3" title="Título 3 (Ctrl+3)">H3</button>
+    </div>
+    <div class="group">
+      <button data-cmd="bold" title="Negrita (Ctrl+B)"><b>B</b></button>
+      <button data-cmd="italic" title="Cursiva (Ctrl+I)"><i>I</i></button>
+      <button data-cmd="strike" title="Tachado (Ctrl+Shift+X)"><s>S</s></button>
+      <button data-cmd="code" title="Código en línea (Ctrl+E)"><code>&lt;/&gt;</code></button>
+      <button data-cmd="link" title="Enlace (Ctrl+K)">🔗</button>
+    </div>
+    <div class="group">
+      <button data-cmd="ul" title="Lista (Ctrl+Shift+8)">• Lista</button>
+      <button data-cmd="ol" title="Lista numerada (Ctrl+Shift+7)">1. Lista</button>
+      <button data-cmd="task" title="Lista de tareas (Ctrl+Shift+9)">☑ Tareas</button>
+    </div>
+    <div class="group">
+      <button data-cmd="quote" title="Cita (Ctrl+Shift+B)">❝ Cita</button>
+      <button data-cmd="codeblock" title="Bloque de código (Ctrl+Alt+C)">{ } Código</button>
+      <button data-cmd="table" title="Insertar tabla (Ctrl+T)">▦ Tabla</button>
+      <button data-cmd="hr" title="Línea horizontal">― Línea</button>
+    </div>
+  </header>
+
+  <div id="main">
+    <aside id="outline">
+      <div class="outline-title">Esquema</div>
+      <ul id="outline-list"></ul>
+    </aside>
+
+    <div id="scroller">
+      <div id="table-toolbar" hidden>
+        <button data-t="rowBefore" title="Insertar fila arriba">↑ Fila</button>
+        <button data-t="rowAfter" title="Insertar fila abajo">↓ Fila</button>
+        <button data-t="colBefore" title="Insertar columna a la izquierda">← Col</button>
+        <button data-t="colAfter" title="Insertar columna a la derecha">→ Col</button>
+        <span class="sep"></span>
+        <button data-t="delRow" title="Eliminar fila">✕ Fila</button>
+        <button data-t="delCol" title="Eliminar columna">✕ Col</button>
+        <button data-t="header" title="Activar/desactivar fila de encabezado">Encabezado</button>
+        <span class="sep"></span>
+        <button data-t="delTable" class="danger" title="Eliminar tabla">Eliminar tabla</button>
+      </div>
+      <div id="editor" class="markdown-body"></div>
+      <textarea id="source" spellcheck="false" placeholder="Código Markdown…"></textarea>
+    </div>
+  </div>
+
+  <footer id="statusbar"><span id="status"></span></footer>
+
+  <div id="link-dialog" hidden>
+    <div class="box">
+      <label for="link-input">URL del enlace</label>
+      <input id="link-input" type="text" placeholder="https://…">
+      <div class="actions">
+        <button id="link-cancel">Cancelar</button>
+        <button id="link-ok" class="primary">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="bundle.js"></script>
+</body>
+</html>
