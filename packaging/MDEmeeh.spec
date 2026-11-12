@@ -20,7 +20,7 @@ a = Analysis(
     pathex=[ROOT],
     binaries=binaries,
     datas=[(os.path.join(ROOT, "emeeh_markdown", "static"), "emeeh_markdown/static")],
-    hiddenimports=["PySide6.QtWebChannel", "PySide6.QtWebEngineCore", "PySide6.QtWebEngineWidgets"],
+    hiddenimports=["PySide6.QtNetwork", "PySide6.QtWebChannel", "PySide6.QtWebEngineCore", "PySide6.QtWebEngineWidgets"],
     excludes=["tkinter", "PySide6.Qt3DCore", "PySide6.QtCharts", "PySide6.QtDataVisualization",
               "PySide6.QtMultimedia", "PySide6.QtQuick3D", "PySide6.QtBluetooth", "PySide6.QtSql"],
 )
